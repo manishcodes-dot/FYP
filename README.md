@@ -15,7 +15,7 @@ https://1drv.ms/f/c/4F3A53077D489A99/IgCLIHHQOe37Sa8EyXT1S5JvAVtYLdFrIJx7JBMysBJ
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+A few resources to get you started the Flutter project:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
