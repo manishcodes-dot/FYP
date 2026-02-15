@@ -77,6 +77,84 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      drawer: Drawer(
+        child: Container(
+          color: Colors.white,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              UserAccountsDrawerHeader(
+                decoration: const BoxDecoration(
+                  color: Color(0xFF212121),
+                ),
+                accountName: const Text(
+                  "My Notes",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                accountEmail: const Text("Organize your thoughts"),
+                currentAccountPicture: const CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Icon(
+                    Icons.edit_note_rounded,
+                    size: 40,
+                    color: Color(0xFF212121),
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.home_filled, color: Colors.black87),
+                title: const Text(
+                  'Home',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                onTap: () => Navigator.pop(context),
+              ),
+              ListTile(
+                leading: const Icon(Icons.folder_special, color: Colors.black87),
+                title: const Text(
+                  'Manage Folders & Tags',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ManageFoldersTagsPage(),
+                    ),
+                  );
+                },
+              ),
+              const Divider(),
+              const Padding(
+                padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
+                child: Text(
+                  'Quick Actions',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.create_new_folder_outlined, color: Colors.black87),
+                title: const Text(
+                  'Create Folder',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  _showAddFolderDialog(context, notesController);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
       body: Column(
         children: [
           // Search Bar

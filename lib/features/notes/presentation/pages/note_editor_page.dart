@@ -170,6 +170,15 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
                         ),
                       ),
                     ),
+                    const SizedBox(width: 8),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.create_new_folder_outlined,
+                        color: Colors.grey,
+                      ),
+                      tooltip: 'New Folder',
+                      onPressed: () => _showAddFolderDialog(context),
+                    ),
                     const Spacer(),
                     ActionChip(
                       avatar: const Icon(
@@ -323,6 +332,49 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
       if (val != null && val.toString().isNotEmpty) {
         setState(() {
           _tags.add(val.toString());
+        });
+      }
+    });
+  }
+
+  Future<void> _showAddFolderDialog(BuildContext context) async {
+    String newFolder = '';
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('New Folder'),
+          content: TextField(
+            autofocus: true,
+            decoration: const InputDecoration(hintText: 'Folder Name'),
+            onChanged: (value) => newFolder = value,
+            onSubmitted: (value) {
+              if (value.isNotEmpty) Navigator.pop(context, value);
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                if (newFolder.isNotEmpty) Navigator.pop(context, newFolder);
+              },
+              child: const Text('Create'),
+            ),
+          ],
+        );
+      },
+    ).then((result) {
+      if (result != null && result is String && result.isNotEmpty) {
+        final notesController = Provider.of<NotesController>(
+          context,
+          listen: false,
+        );
+        notesController.createFolder(result);
+        setState(() {
+          _selectedFolder = result;
         });
       }
     });
