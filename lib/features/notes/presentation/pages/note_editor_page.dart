@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:html_editor_enhanced/html_editor.dart';
+// immport 'package:html_editor_enhanced/html_editor.dart';
 import 'package:provider/provider.dart';
 import '../../logic/notes_controller.dart';
 import '../../data/models/note_model.dart';
@@ -15,7 +15,7 @@ class NoteEditorPage extends StatefulWidget {
 
 class _NoteEditorPageState extends State<NoteEditorPage> {
   late TextEditingController _headerController;
-  final HtmlEditorController _controller = HtmlEditorController();
+  late TextEditingController _contentController;
   String _selectedFolder = 'All Notes';
   List<String> _tags = [];
 
@@ -23,6 +23,9 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
   void initState() {
     super.initState();
     _headerController = TextEditingController(text: widget.note?.title ?? '');
+    _contentController = TextEditingController(
+      text: widget.note?.content ?? '',
+    );
     _tags = widget.note?.tags != null ? List.from(widget.note!.tags) : [];
     _selectedFolder = widget.note?.folderName ?? 'All Notes';
   }
@@ -30,6 +33,7 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
   @override
   void dispose() {
     _headerController.dispose();
+    _contentController.dispose();
     super.dispose();
   }
 
@@ -57,8 +61,8 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
           IconButton(
             icon: const Icon(Icons.check, color: Colors.blue, size: 28),
 
-            onPressed: () async {
-              String txt = await _controller.getText();
+            onPressed: () {
+              String txt = _contentController.text;
 
               // Ensure folder is valid (if user selected something that might not be in the list, though dropdown prevents this usually)
               // But we need to handle "All Notes" mapping if needed.
@@ -239,17 +243,18 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
 
           const Divider(height: 1),
           Expanded(
-            child: HtmlEditor(
-              controller: _controller,
-              htmlEditorOptions: HtmlEditorOptions(
-                hint: "Start typing...",
-                initialText: widget.note?.content,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: TextField(
+                controller: _contentController,
+                maxLines: null,
+                expands: true,
+                decoration: const InputDecoration(
+                  hintText: "Start typing...",
+                  border: InputBorder.none,
+                ),
+                style: const TextStyle(fontSize: 16, height: 1.5),
               ),
-              htmlToolbarOptions: const HtmlToolbarOptions(
-                toolbarPosition: ToolbarPosition.aboveEditor,
-                toolbarType: ToolbarType.nativeScrollable,
-              ),
-              otherOptions: const OtherOptions(height: 500),
             ),
           ),
         ],

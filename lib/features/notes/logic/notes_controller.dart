@@ -11,28 +11,11 @@ class NotesController extends ChangeNotifier {
     notes = [
       Note(
         id: '1',
-        title: 'Project Ideas',
-        content:
-            '<ul><li>App for specific task</li><li>Website redesign</li></ul>',
-        tags: ['Important', 'Work'],
-        folderName: 'Work',
-        dateModified: DateTime.now().subtract(const Duration(days: 1)),
-      ),
-      Note(
-        id: '2',
-        title: 'Grocery List',
-        content: '<p>Milk, Eggs, Bread</p>',
+        title: 'Welcome to My Notes',
+        content: 'Start writing your thoughts here...',
         tags: ['Personal'],
         folderName: 'Personal',
-        dateModified: DateTime.now().subtract(const Duration(hours: 5)),
-      ),
-      Note(
-        id: '3',
-        title: 'Random Thoughts',
-        content: '<p>Standard dummy text...</p>',
-        tags: [],
-        folderName: 'Ideas',
-        dateModified: DateTime.now().subtract(const Duration(days: 2)),
+        dateModified: DateTime.now(),
       ),
     ];
     notifyListeners();
