@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import '../features/notes/logic/notes_controller.dart';
 import '../features/notes/data/models/note_model.dart';
 import '../features/notes/presentation/pages/note_editor_page.dart';
 import 'manage_folders_tags_page.dart';
+import 'profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -64,13 +66,14 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             child: IconButton(
-              icon: const Icon(Icons.settings_outlined, color: Colors.black87),
+              icon: const Icon(
+                Icons.person_outline_rounded,
+                color: Colors.black87,
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => const ManageFoldersTagsPage(),
-                  ),
+                  MaterialPageRoute(builder: (_) => const ProfilePage()),
                 );
               },
             ),
@@ -84,24 +87,34 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.zero,
             children: [
               UserAccountsDrawerHeader(
-                decoration: const BoxDecoration(
-                  color: Color(0xFF212121),
-                ),
-                accountName: const Text(
-                  "My Notes",
-                  style: TextStyle(
+                decoration: const BoxDecoration(color: Color(0xFF212121)),
+                accountName: Text(
+                  FirebaseAuth.instance.currentUser?.displayName ?? "My Notes",
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),
                 ),
-                accountEmail: const Text("Organize your thoughts"),
-                currentAccountPicture: const CircleAvatar(
+                accountEmail: Text(
+                  FirebaseAuth.instance.currentUser?.email ??
+                      "Organize your thoughts",
+                ),
+                currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.edit_note_rounded,
-                    size: 40,
-                    color: Color(0xFF212121),
-                  ),
+                  child: FirebaseAuth.instance.currentUser?.photoURL != null
+                      ? ClipOval(
+                          child: Image.network(
+                            FirebaseAuth.instance.currentUser!.photoURL!,
+                            width: 90,
+                            height: 90,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : const Icon(
+                          Icons.person_rounded,
+                          size: 40,
+                          color: Color(0xFF212121),
+                        ),
                 ),
               ),
               ListTile(
@@ -113,7 +126,27 @@ class _HomePageState extends State<HomePage> {
                 onTap: () => Navigator.pop(context),
               ),
               ListTile(
-                leading: const Icon(Icons.folder_special, color: Colors.black87),
+                leading: const Icon(
+                  Icons.person_outline_rounded,
+                  color: Colors.black87,
+                ),
+                title: const Text(
+                  'Profile',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const ProfilePage()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.folder_special,
+                  color: Colors.black87,
+                ),
                 title: const Text(
                   'Manage Folders & Tags',
                   style: TextStyle(fontWeight: FontWeight.w600),
@@ -141,7 +174,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               ListTile(
-                leading: const Icon(Icons.create_new_folder_outlined, color: Colors.black87),
+                leading: const Icon(
+                  Icons.create_new_folder_outlined,
+                  color: Colors.black87,
+                ),
                 title: const Text(
                   'Create Folder',
                   style: TextStyle(fontWeight: FontWeight.w600),
