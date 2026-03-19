@@ -1,24 +1,42 @@
 import 'package:flutter/material.dart';
-import '../data/models/note_model.dart'; // <-- Corrected path
+import '../data/models/note_model.dart';
 import 'dart:math';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NotesController extends ChangeNotifier {
   List<Note> notes = [];
   List<String> folders = ['All Notes', 'Personal', 'Work', 'Ideas'];
   String selectedFolder = 'All Notes';
 
-  void fetchNotes() {
-    notes = [
-      Note(
-        id: '1',
-        title: 'Welcome to My Notes',
-        content: 'Start writing your thoughts here...',
-        tags: ['Personal'],
-        folderName: 'Personal',
-        dateModified: DateTime.now(),
-      ),
-    ];
+  Future<void> fetchNotes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final notesString = prefs.getString('notes');
+
+    if (notesString != null) {
+      final List<dynamic> jsonList = jsonDecode(notesString);
+      notes = jsonList.map((e) => Note.fromMap(e)).toList();
+    } else {
+      // Default welcome note
+      notes = [
+        Note(
+          id: '1',
+          title: 'Welcome to My Notes',
+          content: 'Start writing your thoughts here...',
+          tags: ['Personal'],
+          folderName: 'Personal',
+          dateModified: DateTime.now(),
+        ),
+      ];
+      await _saveNotes();
+    }
     notifyListeners();
+  }
+
+  Future<void> _saveNotes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final notesString = jsonEncode(notes.map((n) => n.toMap()).toList());
+    await prefs.setString('notes', notesString);
   }
 
   // Folder Management
@@ -32,8 +50,6 @@ class NotesController extends ChangeNotifier {
   void deleteFolder(String name) {
     if (name == 'All Notes') return; // Cannot delete All Notes
     folders.remove(name);
-    // Move notes in deleted folder to 'All Notes' or kept blank?
-    // Let's set their folderName to null or 'All Notes' (conceptually)
     for (var note in notes) {
       if (note.folderName == name) {
         note.folderName = null;
@@ -42,6 +58,7 @@ class NotesController extends ChangeNotifier {
     if (selectedFolder == name) {
       selectedFolder = 'All Notes';
     }
+    _saveNotes();
     notifyListeners();
   }
 
@@ -53,16 +70,11 @@ class NotesController extends ChangeNotifier {
   void moveNote(String noteId, String newFolderName) {
     final index = notes.indexWhere((n) => n.id == noteId);
     if (index != -1) {
-      notes[index].folderName = newFolderName == 'All Notes'
-          ? null
-          : newFolderName;
+      notes[index].folderName = newFolderName == 'All Notes' ? null : newFolderName;
+      _saveNotes();
       notifyListeners();
-      // Logic: If we are viewing a specific folder and move a note OUT of it,
-      // it should disappear from the list seamlessly.
     }
   }
-
-  // Note Management
 
   // Tag Management
   List<String> allTags = ['Work', 'Personal', 'Important', 'Ideas'];
@@ -76,10 +88,10 @@ class NotesController extends ChangeNotifier {
 
   void deleteTag(String tag) {
     allTags.remove(tag);
-    // Optional: Remove this tag from all notes?
     for (var note in notes) {
       note.tags.remove(tag);
     }
+    _saveNotes();
     notifyListeners();
   }
 
@@ -92,7 +104,6 @@ class NotesController extends ChangeNotifier {
   }) {
     final id = Random().nextInt(10000).toString();
 
-    // Auto-add new tags to global list
     if (tags != null) {
       for (var t in tags) {
         addTag(t);
@@ -108,6 +119,7 @@ class NotesController extends ChangeNotifier {
         folderName: folderName,
       ),
     );
+    _saveNotes();
     notifyListeners();
   }
 
@@ -124,7 +136,6 @@ class NotesController extends ChangeNotifier {
       notes[index].content = content;
       if (tags != null) {
         notes[index].tags = tags;
-        // Auto-add new tags to global list
         for (var t in tags) {
           addTag(t);
         }
@@ -133,16 +144,17 @@ class NotesController extends ChangeNotifier {
         notes[index].folderName = folderName == 'All Notes' ? null : folderName;
       }
       notes[index].dateModified = DateTime.now();
+      _saveNotes();
       notifyListeners();
     }
   }
 
   void deleteNote(String id) {
     notes.removeWhere((note) => note.id == id);
+    _saveNotes();
     notifyListeners();
   }
 
-  // Computed / Filtered Notes
   List<Note> get filteredNotes {
     return notes.where((note) {
       final matchesFolder =

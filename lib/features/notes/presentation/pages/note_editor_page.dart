@@ -181,7 +181,7 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
                         color: Colors.grey,
                       ),
                       tooltip: 'New Folder',
-                      onPressed: () => _showAddFolderDialog(context),
+                      onPressed: () => _showAddFolderDialog(),
                     ),
                     const Spacer(),
                     ActionChip(
@@ -202,7 +202,7 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
                         horizontal: 8,
                         vertical: 4,
                       ),
-                      onPressed: () => _showAddTagDialog(context),
+                      onPressed: () => _showAddTagDialog(),
                     ),
                   ],
                 ),
@@ -262,18 +262,17 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
     );
   }
 
-  Future<void> _showAddTagDialog(BuildContext context) async {
+  Future<void> _showAddTagDialog() async {
     final notesController = Provider.of<NotesController>(
       context,
       listen: false,
     );
-    final availableTags = notesController.allTags
-        .where((t) => !_tags.contains(t))
-        .toList();
+    final availableTags =
+        notesController.allTags.where((t) => !_tags.contains(t)).toList();
 
     String newTag = '';
 
-    await showDialog(
+    final val = await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -333,18 +332,19 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
           ],
         );
       },
-    ).then((val) {
-      if (val != null && val.toString().isNotEmpty) {
-        setState(() {
-          _tags.add(val.toString());
-        });
-      }
-    });
+    );
+
+    if (!mounted) return;
+    if (val != null && val.toString().isNotEmpty) {
+      setState(() {
+        _tags.add(val.toString());
+      });
+    }
   }
 
-  Future<void> _showAddFolderDialog(BuildContext context) async {
+  Future<void> _showAddFolderDialog() async {
     String newFolder = '';
-    await showDialog(
+    final result = await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -371,17 +371,18 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
           ],
         );
       },
-    ).then((result) {
-      if (result != null && result is String && result.isNotEmpty) {
-        final notesController = Provider.of<NotesController>(
-          context,
-          listen: false,
-        );
-        notesController.createFolder(result);
-        setState(() {
-          _selectedFolder = result;
-        });
-      }
-    });
+    );
+
+    if (!mounted) return;
+    if (result != null && result is String && result.isNotEmpty) {
+      final notesController = Provider.of<NotesController>(
+        context,
+        listen: false,
+      );
+      notesController.createFolder(result);
+      setState(() {
+        _selectedFolder = result;
+      });
+    }
   }
 }

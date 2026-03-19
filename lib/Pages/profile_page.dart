@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
+import '../services/auth_service.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -11,6 +12,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final user = FirebaseAuth.instance.currentUser;
+  final _authService = AuthService();
 
   Future<void> _updateName(BuildContext context) async {
     final controller = TextEditingController(text: user?.displayName);
@@ -178,6 +180,7 @@ class _ProfilePageState extends State<ProfilePage> {
               // Logout Button
               GestureDetector(
                 onTap: () async {
+                  await _authService.logout();
                   await FirebaseAuth.instance.signOut();
                   if (context.mounted) {
                     Navigator.of(context).pushAndRemoveUntil(

@@ -38,6 +38,7 @@ dependencies:
   firebase_auth: 5.7.0
   http: ^1.6.0
   provider: ^6.0.5
+  shared_preferences: ^2.5.2
   flutter_dotenv: 5.2.1
   html_editor_enhanced: 2.7.1
   markdown: ^7.3.0

@@ -23,14 +23,11 @@ class _SignupPageState extends State<SignupPage> {
     setState(() => _loading = true);
 
     try {
-      final user = await _authService.signUp(
+      await _authService.signUp(
+        _nameController.text.trim(),
         _emailController.text.trim(),
         _passwordController.text.trim(),
       );
-
-      if (user != null && _nameController.text.isNotEmpty) {
-        await user.updateDisplayName(_nameController.text.trim());
-      }
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

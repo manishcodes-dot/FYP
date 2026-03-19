@@ -1,0 +1,38 @@
+﻿Analyzing cw1...                                                
+
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\Pages\home.dart:62:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\Pages\home.dart:205:41 - deprecated_member_use
+   info - 'onWillAccept' is deprecated and shouldn't be used. Use onWillAcceptWithDetails instead. This callback is similar to onWillAcceptWithDetails but does not provide drag details. This feature was deprecated after v3.14.0-0.2.pre - lib\Pages\home.dart:243:21 - deprecated_member_use
+   info - 'onAccept' is deprecated and shouldn't be used. Use onAcceptWithDetails instead. This callback is similar to onAcceptWithDetails but does not provide drag details. This feature was deprecated after v3.14.0-0.2.pre - lib\Pages\home.dart:244:21 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\Pages\home.dart:282:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\Pages\home.dart:289:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\Pages\home.dart:322:47 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\Pages\home.dart:352:53 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\Pages\home.dart:462:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\Pages\home.dart:469:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\Pages\manage_folders_tags_page.dart:119:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\Pages\manage_folders_tags_page.dart:251:43 - deprecated_member_use
+  error - The method 'updateDisplayName' isn't defined for the type 'MyUser' - lib\Pages\sign_in.dart:33:20 - undefined_method
+warning - Unused import: 'auth_service.dart' - lib\Services\note_service.dart:4:8 - unused_import
+  error - The method 'fromJson' isn't defined for the type 'Note' - lib\features\notes\data\repositories\note_repository.dart:13:35 - undefined_method
+  error - The method 'fromJson' isn't defined for the type 'Note' - lib\features\notes\data\repositories\note_repository.dart:26:19 - undefined_method
+  error - The method 'fromJson' isn't defined for the type 'Note' - lib\features\notes\data\repositories\note_repository.dart:39:19 - undefined_method
+  error - Expected to find ';' - lib\features\notes\presentation\pages\note_editor_page.dart:335:8 - expected_token
+  error - Expected to find ')' - lib\features\notes\presentation\pages\note_editor_page.dart:336:5 - expected_token
+  error - Expected a class member - lib\features\notes\presentation\pages\note_editor_page.dart:336:6 - expected_class_member
+  error - Expected a class member - lib\features\notes\presentation\pages\note_editor_page.dart:336:7 - expected_class_member
+  error - 'then' must have a method body because '_NoteEditorPageState' isn't abstract - lib\features\notes\presentation\pages\note_editor_page.dart:336:8 - concrete_class_with_abstract_member
+   info - Use the generic function type syntax to declare the parameter '' - lib\features\notes\presentation\pages\note_editor_page.dart:336:13 - use_function_type_syntax_for_parameters
+  error - Expected an identifier - lib\features\notes\presentation\pages\note_editor_page.dart:336:13 - missing_identifier
+  error - Expected to find ')' - lib\features\notes\presentation\pages\note_editor_page.dart:336:19 - expected_token
+  error - Expected to find ';' - lib\features\notes\presentation\pages\note_editor_page.dart:374:8 - expected_token
+  error - Expected to find ')' - lib\features\notes\presentation\pages\note_editor_page.dart:375:5 - expected_token
+  error - Expected a method, getter, setter or operator declaration - lib\features\notes\presentation\pages\note_editor_page.dart:375:6 - expected_executable
+  error - Expected a method, getter, setter or operator declaration - lib\features\notes\presentation\pages\note_editor_page.dart:375:7 - expected_executable
+   info - Use the generic function type syntax to declare the parameter '' - lib\features\notes\presentation\pages\note_editor_page.dart:375:13 - use_function_type_syntax_for_parameters
+  error - Expected an identifier - lib\features\notes\presentation\pages\note_editor_page.dart:375:13 - missing_identifier
+  error - Expected to find ')' - lib\features\notes\presentation\pages\note_editor_page.dart:375:22 - expected_token
+  error - A function body must be provided - lib\features\notes\presentation\pages\note_editor_page.dart:387:7 - missing_function_body
+  error - Expected a method, getter, setter or operator declaration - lib\features\notes\presentation\pages\note_editor_page.dart:388:3 - expected_executable
+  error - Expected a method, getter, setter or operator declaration - lib\features\notes\presentation\pages\note_editor_page.dart:389:1 - expected_executable
+

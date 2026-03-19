@@ -9,8 +9,8 @@ class NoteRepository {
   Future<List<Note>> fetchNotes() async {
     final response = await http.get(Uri.parse('$baseUrl/notes'));
     if (response.statusCode == 200) {
-      final data = json.decode(response.body) as List;
-      return data.map((e) => Note.fromJson(e)).toList();
+      final List data = json.decode(response.body);
+      return data.map((e) => Note.fromMap(e)).toList();
     } else {
       throw Exception('Failed to fetch notes');
     }
@@ -23,7 +23,7 @@ class NoteRepository {
       body: json.encode({'title': title, 'content': content}),
     );
     if (response.statusCode == 201) {
-      return Note.fromJson(json.decode(response.body));
+      return Note.fromMap(json.decode(response.body));
     } else {
       throw Exception('Failed to create note');
     }
@@ -36,7 +36,7 @@ class NoteRepository {
       body: json.encode({'title': title, 'content': content}),
     );
     if (response.statusCode == 200) {
-      return Note.fromJson(json.decode(response.body));
+      return Note.fromMap(json.decode(response.body));
     } else {
       throw Exception('Failed to update note');
     }
